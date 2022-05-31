@@ -5,17 +5,13 @@
       "name": "C/C++ Runner: Debug Session",
       "type": "cppdbg",
       "request": "launch",
-      "args": [
-        ""
-      ],
+      "args": [],
       "stopAtEntry": false,
+      "externalConsole": false,
       "cwd": "d:/project_portfolio/belajar_cpp",
-      "environment": [],
       "program": "d:/project_portfolio/belajar_cpp/build/Debug/outDebug",
-      "internalConsoleOptions": "openOnSessionStart",
       "MIMode": "gdb",
       "miDebuggerPath": "C:/cygwin64/bin/gdb.exe",
-      "externalConsole": true,
       "setupCommands": [
         {
           "description": "Enable pretty-printing for gdb",

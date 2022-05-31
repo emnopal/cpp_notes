@@ -1,86 +1,87 @@
 #include <iostream>
 #include <string.h>
-using namespace std;
+#include <stdexcept>
 
-class Resistor{ 
-private: 
+class Resistor
+{
+private:
 	float Resistantion;
-	float Pararels;
-	string Units;
-public: 
-    Resistor(float Resistansi, string Satuan){ 
-    	Resistantion = Resistansi;
-    	Units = Satuan;
-    }
+	std::string Units;
+
+public:
+	Resistor(float resistantion, std::string units){
+		// name of constructor must not same with name of parameter constructor
+		Resistantion = resistantion;
+		Units = units;
+		// name of constructor will spread over class member
+	}
+
 	void tampilkan(){
-		cout << "Nilai Resistansinya adalah: " << Resistantion << " " << Units << endl;
+		std::cout << "Nilai Resistansinya adalah: " << Resistantion << " " << Units << std::endl;
 	}
-	void setResistantion(float NewResistantion){
-		Resistantion = NewResistantion;
+
+	void setResistantion(float Resistantion){
+		Resistantion = Resistantion;
 	}
-	void setUnits(string NewUnits){
-		Units = NewUnits;
+
+	void setUnits(std::string Units){
+		Units = Units;
 	}
+
 	float getResistantion(){
 		return Resistantion;
 	}
-	string getUnits(){
+
+	std::string getUnits(){
 		return Units;
 	}
-	Resistor Paralel(Resistor Res1, Resistor Res2){ // Member Function dari Darlington
-    	//Resistor::Paralels;
-        if (Res1.getUnits() == Res2.getUnits()){
-			Pararels = Res1.getResistantion() * Res2.getResistantion() / (Res1.getResistantion() + Res2.getResistantion());
-			cout << "Resistor Paralel nya: " << Pararels;
-        }
-        else{
-            cout << "Satuan tidak sama"; 
-            return *this;
-        }
-    }
-
 };
 
-int main(){
-	float resis,resist;
-	string satuan;
-	// resistor 1
-	float resis1,resist1;
-	string satuan1;
-	cout << "nilai resistor 1: ";
-	cin >> resis1;
-	if (resis1 <= 1000){
-		satuan1 = "Ohm";
+std::pair<float, std::string> Paralel(Resistor ResistorA, Resistor ResistorB){
+	float Pararels;
+	if (ResistorA.getUnits() == ResistorB.getUnits()){
+		Pararels = ResistorA.getResistantion() * ResistorB.getResistantion() /\
+		 (ResistorA.getResistantion() + ResistorB.getResistantion());
+		return std::make_pair(Pararels, ResistorA.getUnits());
+	} else {
+		throw std::invalid_argument("Satuan tidak sama");
 	}
-	if (resis1 >= 1000){
-		resis1 = resis1/1000;
-		satuan1 = "kOhm";
+};
+
+std::string GetSatuan(float satuan){
+	std::string satuan_valid;
+	if (satuan <= 1000){
+		satuan_valid = "Ohm";
 	}
-	if (resis1 >= 1000000){
-		resis1 = resis1/1000000;
-		satuan1 = "MOhm";
+	if (satuan >= 1000){
+		satuan = satuan / 1000;
+		satuan_valid = "kOhm";
 	}
-	// resistor 2
-	float resis2,resist2;
-	string satuan2;
-	cout << "nilai resistor 2: ";
-	cin >> resis2;
-	if (resis2 <= 1000){
-		satuan2 = "Ohm";
+	if (satuan >= 1000000){
+		satuan = satuan / 1000000;
+		satuan_valid = "MOhm";
 	}
-	if (resis2 >= 1000){
-		resis2 = resis2/1000;
-		satuan2 = "kOhm";
-	}
-	if (resis2 >= 1000000){
-		resis2 = resis2/1000000;
-		satuan2 = "MOhm";
-	}
-	Resistor ResistorA = Resistor(resis1, satuan1);
-	Resistor ResistorB = Resistor(resis2, satuan2);
-	Resistor Hitung = Resistor(resis, satuan);
-	ResistorA.tampilkan();
-	ResistorB.tampilkan();
-	Hitung.Paralel(ResistorA, ResistorB);
+	return satuan_valid;
+}
+
+// c++ main() needs to return int
+int main()
+{
+	float resistor0, resistor1;
+	std::string satuan0, satuan1;
+
+	resistor0 = 12;
+	resistor1 = 14;
+
+	satuan0 = GetSatuan(resistor0);
+	satuan1 = GetSatuan(resistor1);
+
+	Resistor ResistorA = Resistor(resistor0, satuan0);
+	Resistor ResistorB = Resistor(resistor1, satuan1);
+
+	std::pair<float, std::string> resistorFinal = Paralel(ResistorA, ResistorB);
+
+	std::cout << "Resistor Paralel nya: " << resistorFinal.first << " " << resistorFinal.second;
+
 	return 0;
 }
