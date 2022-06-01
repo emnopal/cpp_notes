@@ -9,38 +9,38 @@ private:
 	std::string Units;
 
 public:
-	Resistor(float resistantion, std::string units){
-		// name of constructor must not same with name of parameter constructor
-		Resistantion = resistantion;
-		Units = units;
-		// name of constructor will spread over class member
+	Resistor(float &Resistantion, std::string &Units){
+		this->Resistantion = Resistantion;
+		this->Units = Units;
 	}
 
 	void tampilkan(){
-		std::cout << "Nilai Resistansinya adalah: " << Resistantion << " " << Units << std::endl;
+		std::cout << "Nilai Resistansinya adalah: " <<
+		this->Resistantion << " " <<
+		this->Units << std::endl;
 	}
 
-	void setResistantion(float Resistantion){
-		Resistantion = Resistantion;
+	void setResistantion(float &Resistantion){
+		this->Resistantion = Resistantion;
 	}
 
-	void setUnits(std::string Units){
-		Units = Units;
+	void setUnits(std::string &Units){
+		this->Units = Units;
 	}
 
 	float getResistantion(){
-		return Resistantion;
+		return this->Resistantion;
 	}
 
 	std::string getUnits(){
-		return Units;
+		return this->Units;
 	}
 };
 
 std::pair<float, std::string> Paralel(Resistor ResistorA, Resistor ResistorB){
 	float Pararels;
 	if (ResistorA.getUnits() == ResistorB.getUnits()){
-		Pararels = ResistorA.getResistantion() * ResistorB.getResistantion() /\
+		Pararels = ResistorA.getResistantion() * ResistorB.getResistantion() /
 		 (ResistorA.getResistantion() + ResistorB.getResistantion());
 		return std::make_pair(Pararels, ResistorA.getUnits());
 	} else {
@@ -77,7 +77,10 @@ int main()
 	satuan1 = GetSatuan(resistor1);
 
 	Resistor ResistorA = Resistor(resistor0, satuan0);
+	ResistorA.tampilkan();
+
 	Resistor ResistorB = Resistor(resistor1, satuan1);
+	ResistorB.tampilkan();
 
 	std::pair<float, std::string> resistorFinal = Paralel(ResistorA, ResistorB);
 
