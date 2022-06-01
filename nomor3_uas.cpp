@@ -6,6 +6,7 @@ class Resistor
 {
 private:
 	float Resistantion;
+	float Pararels;
 	std::string Units;
 
 public:
@@ -35,20 +36,39 @@ public:
 	std::string getUnits(){
 		return this->Units;
 	}
+
+	// Paralel as method of class Resistor
+	/*
+	Make resistor Paralel
+	*/
+	std::pair<float, std::string> Paralel(Resistor AnotherResistor){
+		if (this->getUnits() == AnotherResistor.getUnits()){
+
+			Pararels = this->getResistantion() * AnotherResistor.getResistantion() /
+				(this->getResistantion() + AnotherResistor.getResistantion());
+
+			return std::make_pair(Pararels, this->getUnits());
+		} else {
+			throw std::invalid_argument("Satuan tidak sama");
+		}
+	};
+
 };
 
-std::pair<float, std::string> Paralel(Resistor ResistorA, Resistor ResistorB){
-	float Pararels;
-	if (ResistorA.getUnits() == ResistorB.getUnits()){
-		Pararels = ResistorA.getResistantion() * ResistorB.getResistantion() /
-		 (ResistorA.getResistantion() + ResistorB.getResistantion());
-		return std::make_pair(Pararels, ResistorA.getUnits());
-	} else {
-		throw std::invalid_argument("Satuan tidak sama");
-	}
-};
+// Paralel as independent function
+// std::pair<float, std::string> Paralel(Resistor ResistorA, Resistor ResistorB){
+// 	float Pararels;
+// 	if (ResistorA.getUnits() == ResistorB.getUnits()){
+// 		Pararels = ResistorA.getResistantion() * ResistorB.getResistantion() /
+// 		 (ResistorA.getResistantion() + ResistorB.getResistantion());
+// 		return std::make_pair(Pararels, ResistorA.getUnits());
+// 	} else {
+// 		throw std::invalid_argument("Satuan tidak sama");
+// 	}
+// };
 
-std::string GetSatuan(float satuan){
+std::string GetSatuan(float satuan)
+{
 	std::string satuan_valid;
 	if (satuan <= 1000){
 		satuan_valid = "Ohm";
@@ -82,7 +102,11 @@ int main()
 	Resistor ResistorB = Resistor(resistor1, satuan1);
 	ResistorB.tampilkan();
 
-	std::pair<float, std::string> resistorFinal = Paralel(ResistorA, ResistorB);
+	// if we are using Paralel as independent function
+	// std::pair<float, std::string> resistorFinal = Paralel(ResistorA, ResistorB);
+
+	// if we are using Paralel as method of class Resistor
+	std::pair<float, std::string> resistorFinal = ResistorA.Paralel(ResistorB);
 
 	std::cout << "Resistor Paralel nya: " << resistorFinal.first << " " << resistorFinal.second;
 
