@@ -123,7 +123,8 @@ public:
 
         root = getAkar(a, b, c);
 
-        std::cout << "Hasil Akar: " << root.first << std::endl << "Jenis Akar: " << root.second;
+        std::cout << "Hasil Akar: " << root.first
+        << "Jenis Akar: " << root.second;
     }
 
     void NomorDua(){
