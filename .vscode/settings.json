@@ -1,5 +1,5 @@
 {
-  "C_Cpp_Runner.cCompilerPath": "C:/cygwin64/bin/gcc.exe",
+  "C_Cpp_Runner.cCompilerPath": "C:/devtools/bin/cpp/mingw64/bin/gcc.exe",
   "C_Cpp_Runner.cppCompilerPath": "C:/cygwin64/bin/g++.exe",
   "C_Cpp_Runner.debuggerPath": "C:/cygwin64/bin/gdb.exe",
   "C_Cpp_Runner.cStandard": "",
@@ -113,6 +113,8 @@
     "ios": "cpp",
     "locale": "cpp",
     "queue": "cpp",
-    "stack": "cpp"
+    "stack": "cpp",
+    "unordered_set": "cpp",
+    "shared_mutex": "cpp"
   }
 }
