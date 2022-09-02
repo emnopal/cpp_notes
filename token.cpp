@@ -1,5 +1,6 @@
 #include <iostream>
 #include "token.h"
+#include "tokenException.h"
 
 class TokenUse: public TokenStream {
 
@@ -74,9 +75,9 @@ class TokenUse: public TokenStream {
 
         }
 
-        double expression(){
+        double expression() {
 
-            double left = this->term();
+            double left = term();
 
             while(true) {
 
@@ -85,11 +86,11 @@ class TokenUse: public TokenStream {
                 switch (t.kind){
 
                     case '+':
-                        left += this->term();
+                        left += term();
                         break;
 
                     case '-':
-                        left -= this->term();
+                        left -= term();
                         break;
 
                     default:
@@ -102,14 +103,14 @@ class TokenUse: public TokenStream {
 
         }
 
-        double primary(){
+        double primary() {
 
             Token t = get();
 
-            switch(t.kind){
+            switch(t.kind) {
 
-                case '(':{
-                    double d = this->expression();
+                case '(': {
+                    double d = expression();
                     t = get();
                     if (t.kind != ')') {
                         throw std::invalid_argument("')'expected");
@@ -117,17 +118,24 @@ class TokenUse: public TokenStream {
                     return d;
                 }
 
-            case '8':
-                return t.value;
+                case '8':
+                    return t.value;
 
-            default:
-                throw std::invalid_argument("primary expected");
+                case ';':
+                    return expression();
+
+                case 'q':
+                    return 0;
+
+                default:
+                    throw std::invalid_argument("primary expected");
+
             }
         }
 
-        double term(){
+        double term() {
 
-            double left = this->primary();
+            double left = primary();
 
             while(true){
 
@@ -136,11 +144,11 @@ class TokenUse: public TokenStream {
                 switch(t.kind){
 
                     case '*':
-                        left *= this->primary();
+                        left *= primary();
                         break;
 
                     case '/':{
-                        double d = this->primary();
+                        double d = primary();
 
                         if (d==0) {
                             throw std::invalid_argument("divided by zero");
@@ -157,7 +165,7 @@ class TokenUse: public TokenStream {
             }
         }
 
-        void calculate () {
+        void calculate() {
 
             double val = 0;
             std::cout << "> ";
@@ -166,16 +174,16 @@ class TokenUse: public TokenStream {
                 Token t = get();
 
                 if(t.kind == 'q'){
-                break;
+                    break;
                 }
 
                 if(t.kind == ';'){
-                    std::cout << "= " << val << '\n';
+                    std::cout << std::fixed << "= " << val << std::endl;
                 }
 
                 putback(t);
 
-                val = this->expression();
+                val = expression();
             }
         }
 
@@ -185,6 +193,9 @@ int main(){
     std::cout << "kalkulator C++\n";
     std::cout << "\n";
     TokenUse *calculate = new TokenUse();
-    calculate->calculate();
-    return 0;
+    try {
+        calculate->calculate();
+    } catch (ExceptionWhenEndOfCalculation e) {
+        calculate->calculate();
+    }
 }
