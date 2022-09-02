@@ -1,6 +1,6 @@
 #include <iostream>
-#include "token.h"
-#include "tokenException.h"
+#include "token.hpp"
+#include "tokenException.hpp"
 
 class TokenUse: public TokenStream {
 
@@ -122,6 +122,7 @@ class TokenUse: public TokenStream {
                     return t.value;
 
                 case ';':
+                case ':':
                     return expression();
 
                 case 'q':
