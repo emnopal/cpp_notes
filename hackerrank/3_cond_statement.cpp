@@ -34,8 +34,6 @@ int main()
 
     int n = stoi(ltrim(rtrim(n_temp)));
 
-
-    // Write your code here
     try {
         std::cout << num_str.at(n-1);
     } catch (const std::out_of_range& e) {
